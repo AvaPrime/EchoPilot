@@ -63,7 +63,7 @@ export interface PlaybookStep {
 
 export class CodessaApiClient {
     private client: AxiosInstance;
-    private config: CodessaConfig;
+    private config!: CodessaConfig; // Initialized in updateConfiguration()
 
     constructor() {
         this.updateConfiguration();
@@ -88,6 +88,18 @@ export class CodessaApiClient {
             this.client.defaults.baseURL = this.config.apiEndpoint;
             this.client.defaults.headers.common['Authorization'] = 
                 this.config.apiKey ? `Bearer ${this.config.apiKey}` : '';
+        }
+    }
+
+    protected configureWebHeaders(webEndpoint?: string): void {
+        if (this.client) {
+            if (webEndpoint) {
+                this.client.defaults.baseURL = webEndpoint;
+            }
+            // Add CORS headers for web requests
+            this.client.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+            this.client.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
+            this.client.defaults.headers.common['Access-Control-Allow-Headers'] = 'Content-Type, Authorization';
         }
     }
 
@@ -133,7 +145,7 @@ export class CodessaApiClient {
             let fullContent = '';
             const actions: any[] = [];
 
-            eventSource.onmessage = (event) => {
+            eventSource.onmessage = (event: MessageEvent) => {
                 try {
                     const data = JSON.parse(event.data);
                     
@@ -152,7 +164,7 @@ export class CodessaApiClient {
                 }
             };
 
-            eventSource.onerror = (error) => {
+            eventSource.onerror = (error: Event) => {
                 console.error('EventSource error:', error);
                 eventSource.close();
                 reject(new Error('Stream connection failed'));

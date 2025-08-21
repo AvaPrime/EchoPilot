@@ -136,16 +136,10 @@ class WebCompatibleApiClient extends CodessaApiClient {
         if (isWeb) {
             // Override base configuration for web compatibility
             const config = vscode.workspace.getConfiguration('codessa');
-            const webEndpoint = config.get('webApiEndpoint') || config.get('apiEndpoint');
+            const webEndpoint = config.get<string>('webApiEndpoint') || config.get<string>('apiEndpoint');
             
-            if (this.client) {
-                this.client.defaults.baseURL = webEndpoint;
-                
-                // Add CORS headers for web requests
-                this.client.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-                this.client.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
-                this.client.defaults.headers.common['Access-Control-Allow-Headers'] = 'Content-Type, Authorization';
-            }
+            // Use the protected method to configure web headers
+            this.configureWebHeaders(webEndpoint);
         }
     }
 

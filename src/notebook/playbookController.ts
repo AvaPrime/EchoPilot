@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { CodessaApiClient, PlaybookStep } from '../api/apiClient';
 
 export class PlaybookNotebookController {
-    private controller: vscode.NotebookController;
+    private controller!: vscode.NotebookController; // Initialized in register()
     private apiClient: CodessaApiClient;
     private executionOrder = 0;
 

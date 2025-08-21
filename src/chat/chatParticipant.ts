@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { CodessaApiClient, ChatRequest, ChatResponse } from '../api/apiClient';
 
 export class CodessaChatParticipant {
-    private participant: vscode.ChatParticipant;
+    private participant!: vscode.ChatParticipant; // Initialized in register()
     private apiClient: CodessaApiClient;
 
     constructor(apiClient: CodessaApiClient) {
