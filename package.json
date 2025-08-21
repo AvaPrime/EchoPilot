@@ -1,0 +1,153 @@
+{
+  "name": "codessa-ai-workbench",
+  "displayName": "Codessa AI Workbench",
+  "description": "AI-powered development workbench with chat participants, policy enforcement, and agent playbooks",
+  "version": "0.1.0",
+  "publisher": "codessa",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "AI",
+    "Chat Participants",
+    "Other"
+  ],
+  "keywords": [
+    "ai",
+    "chat",
+    "agent",
+    "policy",
+    "automation"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "browser": "./out/extension.js",
+  "extensionKind": [
+    "workspace",
+    "ui"
+  ],
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "codessa.chat",
+        "name": "codessa",
+        "description": "AI assistant powered by Codessa platform",
+        "isSticky": true
+      }
+    ],
+    "commands": [
+      {
+        "command": "codessa.runPlaybook",
+        "title": "Run Agent Playbook",
+        "category": "Codessa"
+      },
+      {
+        "command": "codessa.checkPolicies",
+        "title": "Check GitGuard Policies",
+        "category": "Codessa"
+      },
+      {
+        "command": "codessa.openMonacoEditor",
+        "title": "Open Monaco Editor",
+        "category": "Codessa"
+      },
+      {
+        "command": "codessa.openMonacoEditorWithFile",
+        "title": "Open Current File in Monaco Editor",
+        "category": "Codessa"
+      }
+    ],
+    "notebooks": [
+      {
+        "type": "codessa-playbook",
+        "displayName": "Codessa Agent Playbook",
+        "selector": [
+          {
+            "filenamePattern": "*.codessa-playbook"
+          }
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "Codessa AI Workbench",
+      "properties": {
+        "codessa.apiEndpoint": {
+          "type": "string",
+          "default": "https://api.codessa.dev",
+          "description": "Codessa API endpoint URL"
+        },
+        "codessa.apiKey": {
+          "type": "string",
+          "description": "Codessa API key for authentication"
+        },
+        "codessa.enablePolicyChecks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable GitGuard policy checking"
+        },
+        "codessa.streamResponses": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable streaming responses from chat participant"
+        },
+        "codessa.webApiEndpoint": {
+          "type": "string",
+          "description": "Codessa API endpoint for web environments (vscode.dev)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.0",
+    "ts-loader": "^9.5.1",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
+    "console-browserify": "^1.2.0",
+    "constants-browserify": "^1.0.0",
+    "crypto-browserify": "^3.12.0",
+    "domain-browser": "^4.22.0",
+    "events": "^3.3.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "punycode": "^2.3.1",
+    "querystring-es3": "^0.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "string_decoder": "^1.3.0",
+    "timers-browserify": "^2.0.12",
+    "tty-browserify": "^0.0.1",
+    "url": "^0.11.3",
+    "util": "^0.12.5",
+    "vm-browserify": "^1.1.2",
+    "browserify-zlib": "^0.2.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "eventsource": "^2.0.2"
+  },
+  "browser": {
+    "./out/extension.js": "./out/web-extension.js"
+  }
+}
