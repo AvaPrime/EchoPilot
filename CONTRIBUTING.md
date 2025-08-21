@@ -1,6 +1,6 @@
-# Contributing to Ava-Prime
+# Contributing to EchoPilot
 
-🎉 Thank you for your interest in contributing to Ava-Prime! We welcome contributions from developers of all skill levels and backgrounds.
+🎉 Thank you for your interest in contributing to EchoPilot! We welcome contributions from developers of all skill levels and backgrounds.
 
 ## Table of Contents
 
@@ -49,8 +49,8 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 ```bash
 # 1. Fork and clone the repository
-git clone https://github.com/YOUR_USERNAME/Ava-Prime.git
-cd Ava-Prime
+git clone https://github.com/YOUR_USERNAME/EchoPilot.git
+cd EchoPilot
 
 # 2. Install dependencies
 npm install
@@ -69,7 +69,7 @@ code . && press F5
 ### Project Structure
 
 ```
-Ava-Prime/
+EchoPilot/
 ├── src/                    # Source code
 │   ├── api/               # API client and communication
 │   ├── chat/              # Chat participant implementation
@@ -389,7 +389,7 @@ public async handleRequest(
 - **GitHub Issues**: Bug reports and feature requests
 - **GitHub Discussions**: General questions and ideas
 - **Discord**: Real-time chat and community support
-- **Email**: security@ava-prime.dev for security issues
+- **Email**: security@echopilot.dev for security issues
 
 ### Getting Help
 
@@ -453,8 +453,8 @@ chore(ci): improve build performance
 
 Don't hesitate to reach out! We're here to help:
 
-- 💬 [GitHub Discussions](https://github.com/username/Ava-Prime/discussions)
-- 🐛 [Report Issues](https://github.com/username/Ava-Prime/issues)
-- 📧 [Email Us](mailto:contributors@ava-prime.dev)
+- 💬 [GitHub Discussions](https://github.com/username/EchoPilot/discussions)
+- 🐛 [Report Issues](https://github.com/username/EchoPilot/issues)
+- 📧 [Email Us](mailto:contributors@echopilot.dev)
 
-Thank you for contributing to Ava-Prime! 🚀
+Thank you for contributing to EchoPilot! 🚀

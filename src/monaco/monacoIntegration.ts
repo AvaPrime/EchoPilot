@@ -37,7 +37,7 @@ export class MonacoEditorProvider {
                 enableScripts: true,
                 retainContextWhenHidden: true,
                 localResourceRoots: [
-                    vscode.Uri.joinPath(vscode.extensions.getExtension('codessa.codessa-ai-workbench')?.extensionUri || vscode.Uri.file(''), 'resources')
+                    vscode.Uri.joinPath(vscode.extensions.getExtension('codessa.echopilot')?.extensionUri || vscode.Uri.file(''), 'resources')
                 ]
             }
         );
