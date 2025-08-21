@@ -3,7 +3,19 @@
   "displayName": "EchoPilot",
   "description": "AI-powered development workbench with chat participants, policy enforcement, and agent playbooks",
   "version": "0.1.0",
-  "publisher": "codessa",
+  "publisher": "codessa-ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AvaPrime/Ava-Prime.git"
+  },
+  "homepage": "https://github.com/AvaPrime/Ava-Prime",
+  "bugs": {
+    "url": "https://github.com/AvaPrime/Ava-Prime/issues"
+  },
+  "author": {
+    "name": "AvaPrime",
+    "url": "https://github.com/AvaPrime"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },

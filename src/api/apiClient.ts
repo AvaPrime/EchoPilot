@@ -71,7 +71,7 @@ export class CodessaApiClient {
             timeout: 30000,
             headers: {
                 'Content-Type': 'application/json',
-                'User-Agent': 'VSCode-Codessa-Extension/0.1.0'
+                'User-Agent': 'VSCode-EchoPilot-Extension/0.1.0 (AvaPrime/Ava-Prime)'
             }
         });
     }

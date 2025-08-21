@@ -2,8 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![VS Code Marketplace](https://img.shields.io/badge/VS%20Code-Marketplace-blue)](https://marketplace.visualstudio.com/)
-[![GitHub Issues](https://img.shields.io/github/issues/username/EchoPilot)](https://github.com/username/EchoPilot/issues)
-[![GitHub Stars](https://img.shields.io/github/stars/username/EchoPilot)](https://github.com/username/EchoPilot/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/AvaPrime/Ava-Prime)](https://github.com/AvaPrime/Ava-Prime/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/AvaPrime/Ava-Prime)](https://github.com/AvaPrime/Ava-Prime/stargazers)
 
 **EchoPilot** is a revolutionary VS Code extension that transforms your development environment into a first-class AI workbench. Built on the Codessa AI platform, it provides intelligent code assistance, automated policy enforcement, and sophisticated agent-driven workflows through an intuitive chat interface, real-time diagnostics, and executable playbooks.
 
@@ -66,8 +66,8 @@
 #### Option 2: Development Installation
 ```bash
 # Clone and setup for development
-git clone https://github.com/username/EchoPilot.git
-cd EchoPilot
+git clone https://github.com/AvaPrime/Ava-Prime.git
+cd Ava-Prime
 npm install
 npm run compile
 
