@@ -184,13 +184,19 @@ export const CancellationToken = {
   onCancellationRequested: jest.fn()
 };
 
-export const Disposable = {
-  from: jest.fn((...disposables) => ({
-    dispose: jest.fn(() => {
-      disposables.forEach(d => d && d.dispose && d.dispose());
-    })
-  }))
-};
+// Create Disposable mock with both constructor and static method
+export const Disposable = Object.assign(
+  jest.fn().mockImplementation(() => ({
+    dispose: jest.fn()
+  })),
+  {
+    from: jest.fn((...disposables) => ({
+      dispose: jest.fn(() => {
+        disposables.forEach(d => d && d.dispose && d.dispose());
+      })
+    }))
+  }
+);
 
 export const EventEmitter = jest.fn().mockImplementation(() => ({
   event: jest.fn(),

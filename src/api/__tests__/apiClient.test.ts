@@ -102,7 +102,9 @@ describe('CodessaApiClient', () => {
 
     it('should handle missing API key gracefully', () => {
       mockVscodeConfig.get.mockImplementation((key: string, defaultValue?: any) => {
-        if (key === 'apiKey') return '';
+        if (key === 'apiKey') {
+          return '';
+        }
         return defaultValue;
       });
 
@@ -134,7 +136,9 @@ describe('CodessaApiClient', () => {
       beforeEach(() => {
         // Disable streaming for sync tests
         mockVscodeConfig.get.mockImplementation((key: string, defaultValue?: any) => {
-          if (key === 'streamResponses') return false;
+          if (key === 'streamResponses') {
+            return false;
+          }
           const config: Record<string, any> = {
             'apiEndpoint': 'https://api.codessa.dev',
             'apiKey': 'test-api-key'

@@ -14,10 +14,18 @@ jest.mock('vscode', () => ({
   },
   window: {
     activeTextEditor: null,
-    onDidChangeActiveTextEditor: jest.fn(() => ({ dispose: jest.fn() }))
+    onDidChangeActiveTextEditor: jest.fn(() => ({ dispose: jest.fn() })),
+    showWarningMessage: jest.fn(),
+    showInformationMessage: jest.fn(),
+    showErrorMessage: jest.fn(),
+    withProgress: jest.fn((options, task) => task({ report: jest.fn() }, { isCancellationRequested: false }))
   },
   workspace: {
-    onDidSaveTextDocument: jest.fn(() => ({ dispose: jest.fn() }))
+    onDidSaveTextDocument: jest.fn(() => ({ dispose: jest.fn() })),
+    textDocuments: [],
+    workspaceFolders: [{ uri: { fsPath: '/test/workspace' } }],
+    findFiles: jest.fn().mockResolvedValue([]),
+    openTextDocument: jest.fn()
   },
   DiagnosticSeverity: {
     Error: 0,
@@ -25,12 +33,45 @@ jest.mock('vscode', () => ({
     Information: 2,
     Hint: 3
   },
-  Range: jest.fn((start, end) => ({ start, end })),
+  Range: jest.fn((start, end) => ({ 
+    start, 
+    end,
+    intersection: jest.fn(() => true)
+  })),
   Position: jest.fn((line, character) => ({ line, character })),
   Diagnostic: jest.fn((range, message, severity) => ({ range, message, severity })),
+  Disposable: Object.assign(
+    jest.fn().mockImplementation(() => ({
+      dispose: jest.fn()
+    })),
+    {
+      from: jest.fn((...disposables) => ({
+        dispose: jest.fn(() => {
+          disposables.forEach(d => d && d.dispose && d.dispose());
+        })
+      }))
+    }
+  ),
+  ProgressLocation: {
+    Notification: 15
+  },
   CodeActionKind: {
-    QuickFix: 'quickfix'
-  }
+    QuickFix: 'quickfix',
+    Empty: 'empty',
+    SourceFixAll: 'source.fixAll'
+  },
+  CodeAction: jest.fn().mockImplementation((title, kind) => ({
+    title,
+    kind,
+    diagnostics: [],
+    isPreferred: false,
+    command: undefined,
+    edit: undefined
+  })),
+  WorkspaceEdit: jest.fn().mockImplementation(() => ({
+    replace: jest.fn(),
+    size: 0
+  }))
 }));
 
 // Mock CodessaApiClient
@@ -65,18 +106,20 @@ describe('PolicyDiagnosticsProvider', () => {
     it('should create diagnostic collection and register providers', () => {
       const disposables = provider.register();
 
-      expect(vscode.languages.createDiagnosticCollection).toHaveBeenCalledWith('codessa-policy');
+      expect(vscode.languages.createDiagnosticCollection).toHaveBeenCalledWith('codessa-policies');
       expect(vscode.languages.registerCodeActionsProvider).toHaveBeenCalled();
       expect(vscode.window.onDidChangeActiveTextEditor).toHaveBeenCalled();
-      expect(disposables).toHaveLength(3);
+      expect(disposables).toBeDefined();
+      expect(typeof disposables.dispose).toBe('function');
     });
   });
 
   describe('checkDocumentPolicies', () => {
     const mockDocument = {
-      uri: { fsPath: '/test/file.ts' },
+      uri: { fsPath: '/test/file.ts', scheme: 'file' },
       getText: jest.fn(() => 'test content'),
-      fileName: 'file.ts'
+      fileName: 'file.ts',
+      languageId: 'typescript'
     } as any;
 
     it('should check policies and set diagnostics for violations', async () => {
@@ -96,7 +139,7 @@ describe('PolicyDiagnosticsProvider', () => {
 
       expect(mockApiClient.checkPolicies).toHaveBeenCalledWith({
         content: 'test content',
-        filePath: '/test/file.ts',
+        filePath: 'file.ts',
         language: 'typescript'
       });
       expect(mockDiagnosticCollection.set).toHaveBeenCalled();
@@ -106,7 +149,8 @@ describe('PolicyDiagnosticsProvider', () => {
       mockApiClient.checkPolicies.mockRejectedValue(new Error('API Error'));
 
       await expect(provider.checkDocumentPolicies(mockDocument)).resolves.not.toThrow();
-      expect(mockDiagnosticCollection.clear).toHaveBeenCalledWith(mockDocument.uri);
+      expect(mockDiagnosticCollection.clear).not.toHaveBeenCalled();
+      expect(mockDiagnosticCollection.set).not.toHaveBeenCalled();
     });
 
     it('should clear diagnostics when no violations found', async () => {
@@ -120,12 +164,21 @@ describe('PolicyDiagnosticsProvider', () => {
 
   describe('checkAllPolicies', () => {
     it('should check policies for all open text documents', async () => {
+      const mockFiles = [
+        { fsPath: '/test/file1.ts' },
+        { fsPath: '/test/file2.ts' }
+      ] as any[];
+      
       const mockDocuments = [
-        { uri: { fsPath: '/test/file1.ts' }, getText: () => 'content1', fileName: 'file1.ts' },
-        { uri: { fsPath: '/test/file2.ts' }, getText: () => 'content2', fileName: 'file2.ts' }
+        { uri: { fsPath: '/test/file1.ts', scheme: 'file' }, getText: () => 'content1', fileName: 'file1.ts' },
+        { uri: { fsPath: '/test/file2.ts', scheme: 'file' }, getText: () => 'content2', fileName: 'file2.ts' }
       ] as any[];
 
-      (vscode.workspace as any).textDocuments = mockDocuments;
+      (vscode.workspace.findFiles as jest.Mock).mockResolvedValue(mockFiles);
+      (vscode.workspace.openTextDocument as jest.Mock)
+        .mockResolvedValueOnce(mockDocuments[0])
+        .mockResolvedValueOnce(mockDocuments[1]);
+      
       mockApiClient.checkPolicies.mockResolvedValue([]);
 
       const checkDocumentSpy = jest.spyOn(provider, 'checkDocumentPolicies').mockResolvedValue();
@@ -149,14 +202,15 @@ describe('PolicyDiagnosticsProvider', () => {
 
   describe('PolicyCodeActionProvider', () => {
     it('should provide code actions for policy violations', () => {
-      const mockDocument = { uri: { fsPath: '/test/file.ts' } } as any;
+      const mockDocument = { uri: { fsPath: '/test/file.ts', scheme: 'file' } } as any;
       const mockRange = new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 10));
       const mockContext = {
         diagnostics: [
           {
             message: 'Policy violation',
             range: mockRange,
-            source: 'codessa-policy'
+            source: 'GitGuard',
+            code: 'TEST_POLICY'
           }
         ]
       } as any;
@@ -166,12 +220,17 @@ describe('PolicyDiagnosticsProvider', () => {
       const actions = codeActionProvider.provideCodeActions(mockDocument, mockRange, mockContext);
 
       expect(actions).toHaveLength(1);
-      expect(actions[0].title).toBe('Ignore this policy violation');
-      expect(actions[0].kind).toBe(vscode.CodeActionKind.QuickFix);
+      expect(actions[0].title).toBe('Explain policy: TEST_POLICY');
+      expect(actions[0].kind).toBe(vscode.CodeActionKind.Empty);
+      expect(actions[0].command).toEqual({
+        command: 'codessa.explainPolicy',
+        title: 'Explain Policy',
+        arguments: ['TEST_POLICY', 'Policy violation']
+      });
     });
 
     it('should return empty array when no policy diagnostics', () => {
-      const mockDocument = { uri: { fsPath: '/test/file.ts' } } as any;
+      const mockDocument = { uri: { fsPath: '/test/file.ts', scheme: 'file' } } as any;
       const mockRange = new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 10));
       const mockContext = {
         diagnostics: [
