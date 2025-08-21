@@ -1,6 +1,6 @@
 {
-  "name": "codessa-ai-workbench",
-  "displayName": "Codessa AI Workbench",
+  "name": "echopilot",
+  "displayName": "EchoPilot",
   "description": "AI-powered development workbench with chat participants, policy enforcement, and agent playbooks",
   "version": "0.1.0",
   "publisher": "codessa",

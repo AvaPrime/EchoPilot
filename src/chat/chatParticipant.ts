@@ -12,7 +12,7 @@ export class CodessaChatParticipant {
     register(): vscode.Disposable {
         this.participant = vscode.chat.createChatParticipant('codessa.chat', this.handleChatRequest.bind(this));
         this.participant.iconPath = vscode.Uri.joinPath(
-            vscode.extensions.getExtension('codessa.codessa-ai-workbench')?.extensionUri || vscode.Uri.file(''),
+            vscode.extensions.getExtension('codessa.echopilot')?.extensionUri || vscode.Uri.file(''),
             'resources',
             'codessa-icon.svg'
         );

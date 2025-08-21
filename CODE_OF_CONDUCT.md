@@ -60,7 +60,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-[conduct@ava-prime.dev](mailto:conduct@ava-prime.dev).
+[conduct@echopilot.dev](mailto:conduct@echopilot.dev).
 
 All complaints will be reviewed and investigated promptly and fairly.
 
@@ -183,4 +183,4 @@ We believe in recognizing contributions:
 
 ---
 
-**Remember**: We're all here because we care about building great software and fostering a positive community. Let's work together to make Ava-Prime a welcoming place for everyone! 🚀
+**Remember**: We're all here because we care about building great software and fostering a positive community. Let's work together to make EchoPilot a welcoming place for everyone! 🚀

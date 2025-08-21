@@ -1,11 +1,11 @@
-# Ava-Prime: AI-Powered VS Code Extension
+# EchoPilot: AI-Powered VS Code Extension
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![VS Code Marketplace](https://img.shields.io/badge/VS%20Code-Marketplace-blue)](https://marketplace.visualstudio.com/)
-[![GitHub Issues](https://img.shields.io/github/issues/username/Ava-Prime)](https://github.com/username/Ava-Prime/issues)
-[![GitHub Stars](https://img.shields.io/github/stars/username/Ava-Prime)](https://github.com/username/Ava-Prime/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/username/EchoPilot)](https://github.com/username/EchoPilot/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/username/EchoPilot)](https://github.com/username/EchoPilot/stargazers)
 
-**Ava-Prime** is a revolutionary VS Code extension that transforms your development environment into a first-class AI workbench. Built on the Codessa AI platform, it provides intelligent code assistance, automated policy enforcement, and sophisticated agent-driven workflows through an intuitive chat interface, real-time diagnostics, and executable playbooks.
+**EchoPilot** is a revolutionary VS Code extension that transforms your development environment into a first-class AI workbench. Built on the Codessa AI platform, it provides intelligent code assistance, automated policy enforcement, and sophisticated agent-driven workflows through an intuitive chat interface, real-time diagnostics, and executable playbooks.
 
 > 🚀 **Vision**: Bend VS Code into an AI-powered development workbench without forking the universe - leveraging existing Extension APIs to create a seamless AI development experience across all VS Code deployment scenarios.
 
@@ -59,15 +59,15 @@
 # Install via VS Code Extensions view
 1. Open VS Code
 2. Press Ctrl+Shift+X (Cmd+Shift+X on Mac)
-3. Search for "Ava-Prime"
+3. Search for "EchoPilot"
 4. Click "Install"
 ```
 
 #### Option 2: Development Installation
 ```bash
 # Clone and setup for development
-git clone https://github.com/username/Ava-Prime.git
-cd Ava-Prime
+git clone https://github.com/username/EchoPilot.git
+cd EchoPilot
 npm install
 npm run compile
 
@@ -80,7 +80,7 @@ code . && press F5
 # Download and install .vsix package
 npm install -g vsce
 vsce package
-code --install-extension ava-prime-*.vsix
+code --install-extension echopilot-*.vsix
 ```
 
 ## ⚙️ Configuration
