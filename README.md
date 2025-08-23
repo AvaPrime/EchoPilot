@@ -1,11 +1,11 @@
-# EchoPilot: AI-Powered VS Code Extension
+# Codessa VSX: AI-Powered VS Code Extension
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![VS Code Marketplace](https://img.shields.io/badge/VS%20Code-Marketplace-blue)](https://marketplace.visualstudio.com/)
 [![GitHub Issues](https://img.shields.io/github/issues/username/EchoPilot)](https://github.com/username/EchoPilot/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/username/EchoPilot)](https://github.com/username/EchoPilot/stargazers)
 
-**EchoPilot** is a revolutionary VS Code extension that transforms your development environment into a first-class AI workbench. Built on the Codessa AI platform, it provides intelligent code assistance, automated policy enforcement, and sophisticated agent-driven workflows through an intuitive chat interface, real-time diagnostics, and executable playbooks.
+**Codessa VSX** is a revolutionary VS Code extension that transforms your development environment into a first-class AI workbench. Built on the Codessa AI platform, it provides intelligent code assistance, automated policy enforcement, and sophisticated agent-driven workflows through an intuitive chat interface, real-time diagnostics, and executable playbooks.
 
 > 🚀 **Vision**: Bend VS Code into an AI-powered development workbench without forking the universe - leveraging existing Extension APIs to create a seamless AI development experience across all VS Code deployment scenarios.
 
